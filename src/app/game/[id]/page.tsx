@@ -3,8 +3,7 @@ export default async function Page({ params }: { params: {id: string }}) {
 
     return (
         <div>
-            Welcome game {id}. TODO: determine authorization whether you have access to this game and if so,
-            whether you are owner, gm, or player
+            I need to redirect or just remove this page and have the reverse proxy handle this endpoint
         </div>
     )
 

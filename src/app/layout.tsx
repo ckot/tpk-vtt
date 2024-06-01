@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import '@/app/ui/globals.css';
+// import '@/app/ui/globals.css';
 import { inter } from "@/app/ui/fonts";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 
 export const metadata: Metadata = {
@@ -10,10 +11,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="en">
+    <html lang="en" data-bs-theme="dark">
       <body className={`${inter.className} antialiased`}>
-          {children}
-        </body>
+        {children}
+      </body>
     </html>
   );
 }

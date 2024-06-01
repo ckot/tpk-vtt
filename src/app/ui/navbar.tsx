@@ -1,14 +1,14 @@
 "use client"
 import { useState } from "react"
 
-import Button from "react-bootstrap/Button"
+// import Button from "react-bootstrap/Button"
 import Container  from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav"
 import Navbar  from "react-bootstrap/Navbar";
 import NavDropdown  from "react-bootstrap/NavDropdown";
 
 import Avatar from "./avatar";
-// import SignOutButton from "./auth/signout-button";
+
 export default function TPKNavBar({session}: {session: any | undefined}) {
     const [collapsed, setCollapsed] = useState(false)
     const toggleCollapsed = () => setCollapsed(!collapsed)

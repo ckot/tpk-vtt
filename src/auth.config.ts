@@ -1,11 +1,13 @@
 import Google from "next-auth/providers/google"
-import vercelPostgresAdapter from "@/lib/vercelPostgresAdapter";
 import type { NextAuthConfig } from "next-auth";
 
-export const authConfig = {
-  debug: true,
+export default  {
+  pages: {
+    "signOut": "/signout",
+    "newUser": "/new-user",
+  },
+  debug: false,
   theme: { logo: "https://authjs.dev/img/logo-sm.png" },
-  adapter: vercelPostgresAdapter(),
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -32,9 +34,13 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = pathname.startsWith('/dashboard');
       const isOnGame = pathname.startsWith("/game");
-      const isOnHomePage = pathname == "/";
+      const isOnHomePage = pathname === "/";
+      const isSignOutPage = pathname === "/signout"
       const loginRequired = isOnDashboard || isOnGame;
-      // console.log("path:", pathname, "loginRequired:", loginRequired, "isLoggedIn:", isLoggedIn, )
+      console.log("path:", pathname, "loginRequired:", loginRequired, "isLoggedIn:", isLoggedIn, )
+      if (isSignOutPage && !isLoggedIn) {
+        return Response.redirect(new URL("/", nextUrl))
+      }
       if (isOnHomePage && isLoggedIn) {
           return Response.redirect(new URL('/dashboard', nextUrl));
       }

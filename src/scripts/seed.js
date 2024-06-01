@@ -1,3 +1,6 @@
+// I disabled this, add this to pkg.json, but as you can see it relies on
+// vercel/postgres, and I'm using prism now
+// "seed": "node -r dotenv/config ./scripts/seed.js"
 const { db } = require('@vercel/postgres');
 const {
   users,
@@ -35,7 +38,7 @@ async function seedUsers(client) {
         VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
         ON CONFLICT (id) DO NOTHING;
       `;
-      }),
+      })
     );
 
     console.log(`Seeded ${insertedUsers.length} users`);
@@ -60,7 +63,7 @@ async function seedGames(client) {
         name VARCHAR(128) NOT NULL
       );
     `;
-    console.log("created game_types table")
+    console.log('created game_types table');
 
     // insert placeholder data
     const insertedGames = await Promise.all(
@@ -69,19 +72,18 @@ async function seedGames(client) {
           INSERT INTO games (id, name)
           VALUES (${game.id}, ${game.name})
           ON CONFLICT (id) DO NOTHING;
-        `,
-      ),
+        `
+      )
     );
 
     console.log(`seeded ${insertedGames.length} games`);
 
     return {
       createTable,
-      games: insertedGames
+      games: insertedGames,
     };
-
   } catch (error) {
-    console.error("Error seeding games", error)
+    console.error('Error seeding games', error);
     throw error;
   }
 }
@@ -103,23 +105,22 @@ async function seedCampaigns(client) {
       );
     `;
 
-    console.log("created campaigns table");
+    console.log('created campaigns table');
 
     const insertedCampaigns = await Promise.all(
       campaigns.map(
         (campaign) => client.sql`
         INSERT INTO campaigns (id, game_id, owner_id, is_public, looking_for_players, name, logo_url, date_scheduled)
         VALUES(${campaign.id}, ${campaign.game_id}, ${campaign.owner_id}, ${campaign.is_public}, ${campaign.looking_for_players}, ${campaign.name}, ${campaign.logo_url}, ${campaign.date_scheduled})
-        `,
-      ),
+        `
+      )
     );
-    console.log(`seeded ${insertedCampaigns.length} campaigns`)
+    console.log(`seeded ${insertedCampaigns.length} campaigns`);
 
     return {
       createTable,
-      campaigns: insertedCampaigns
+      campaigns: insertedCampaigns,
     };
-
   } catch (error) {
     console.error('Error seeding campaigns', error);
     throw error;
@@ -141,24 +142,26 @@ async function seedUserCampaignInfo(client) {
       );
     `;
 
-    console.log("user_campaign_info table created");
+    console.log('user_campaign_info table created');
 
     const insertedUserCampaignInfo = await Promise.all(
       userCampaignInfo.map(
         (campaignInfo) => client.sql`
           INSERT INTO user_campaign_info (campaign_id, user_id, is_gm, is_player, date_last_played)
           VALUES (${campaignInfo.campaign_id}, ${campaignInfo.user_id}, ${campaignInfo.is_gm}, ${campaignInfo.is_player}, ${campaignInfo.date_last_played})
-        `,
-      ),
+        `
+      )
     );
 
-    console.log(`inserted ${insertedUserCampaignInfs.length} userCampaignInfo records`);
+    console.log(
+      `inserted ${insertedUserCampaignInfs.length} userCampaignInfo records`
+    );
     return {
       createTable,
-      userCampaignInfo: insertedUserCampaignInfo
+      userCampaignInfo: insertedUserCampaignInfo,
     };
   } catch (error) {
-    console.error("Error seeding user campaign info", error);
+    console.error('Error seeding user campaign info', error);
     throw error;
   }
 }
@@ -195,8 +198,6 @@ async function seedUserCampaignInfo(client) {
 //     throw error;
 //   }
 // }
-
-
 
 // async function seedInvoices(client) {
 //   try {
@@ -320,13 +321,12 @@ async function main() {
   // await seedCampaigns(client);
   // await seedUserCampaignInfo(client);
 
-
   await client.end();
 }
 
 main().catch((err) => {
   console.error(
     'An error occurred while attempting to seed the database:',
-    err,
+    err
   );
 });

@@ -1,15 +1,13 @@
-"use client";
+import React from "react";
+import Header from "@/app/ui/header";
 
-import { SessionProvider } from "next-auth/react";
-
-export interface DashboardLayoutProps {
-    children: React.ReactNode;
-}
-
-export default function DashboardLayout({children} : DashboardLayoutProps) {
+export default function DashboardLayout({children} : {children: React.ReactNode}) {
     return (
-        <SessionProvider>
-            {children}
-        </SessionProvider>
+        <>
+            <Header />
+            <main>
+                {children}
+            </main>
+        </>
     )
 }
