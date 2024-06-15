@@ -10,7 +10,6 @@ globalThis.prisma ??= new PrismaClient()
 export const { handlers: {GET, POST}, auth, signIn, signOut, unstable_update } = NextAuth({
     // @ts-ignore
     adapter: PrismaAdapter(globalThis.prisma),
-    secret: "I+fqA3H10nEY7WDxCCCOUQ6Afwe0tOTKqXM2MR8pTNU=",
     ...authConfig
 });
 
