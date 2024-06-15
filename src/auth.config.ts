@@ -1,4 +1,7 @@
 import Google from "next-auth/providers/google"
+import Discord from "next-auth/providers/discord"
+import GitHub from "next-auth/providers/github"
+
 import type { NextAuthConfig } from "next-auth";
 
 export default  {
@@ -26,6 +29,14 @@ export default  {
           response_type: "code",
         },
       },
+    }),
+    Discord({
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+    }),
+    GitHub({
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     })
   ],
   callbacks: {
